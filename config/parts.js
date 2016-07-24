@@ -34,4 +34,19 @@ exports.devServer = function(options) {
       })
     ]
   };
-}
+};
+
+exports.setupCSS = function(paths) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          // if unset webpack will traverse all files in the base directory
+          include: paths,
+        }
+      ]
+    }
+  };
+};

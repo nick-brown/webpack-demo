@@ -30,14 +30,14 @@ const common = {
 var config;
 
 if(process.env.npm_lifecycle_event === 'build') {
-  config = merge(common, {});
+  config = merge(common, parts.setupCSS(PATHS.app));
 } else {
   const devConfig = {
     host: process.env.HOST,
     port: process.env.PORT,
   };
 
-  config = merge(common, parts.devServer(devConfig));
+  config = merge(common, parts.devServer(devConfig), parts.setupCSS(PATHS.app));
 }
 
 module.exports = validate(config);
