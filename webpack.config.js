@@ -33,6 +33,7 @@ var config;
 if(process.env.npm_lifecycle_event === 'build') {
   config = merge(
     common,
+    parts.clean(PATHS.build),
     {
       devtool: 'source-map',
       output: {
