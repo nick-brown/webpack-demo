@@ -33,7 +33,16 @@ var config;
 if(process.env.npm_lifecycle_event === 'build') {
   config = merge(
     common,
-    { devtool: 'source-map' },
+    {
+      devtool: 'source-map',
+      output: {
+        path: PATHS.build,
+        filename: '[name].[chunkhash].js',
+        // This is used for require.ensure.  The setup will work without but this is still
+        // useful to set
+        chunkFilename: '[chunkhash].js',
+      }
+    },
     parts.setupCSS(PATHS.app),
     parts.minify(),
     parts.setFreeVariable('process.env.NODE_ENV', 'production'),
