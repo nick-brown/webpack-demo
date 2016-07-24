@@ -50,3 +50,31 @@ exports.setupCSS = function(paths) {
     }
   };
 };
+
+exports.minify = function() {
+  return {
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+
+          drop_console: true,
+        },
+
+        comments: false,
+
+        beautify: false,
+
+        // protect angular deps?
+        mangle: ['$'],
+
+        screw_ie8: true,
+
+        // mangle function names
+        keep_fnames: false,
+
+        except: ['webpackJsonp'] // avoid mangling the webpack runtime
+      })
+    ]
+  }
+};

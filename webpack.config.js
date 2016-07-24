@@ -30,7 +30,12 @@ const common = {
 var config;
 
 if(process.env.npm_lifecycle_event === 'build') {
-  config = merge(common, { devtool: 'source-map' }, parts.setupCSS(PATHS.app));
+  config = merge(
+      common,
+      { devtool: 'source-map' },
+      parts.setupCSS(PATHS.app),
+      parts.minify()
+    );
 } else {
   const devConfig = {
     host: process.env.HOST,
