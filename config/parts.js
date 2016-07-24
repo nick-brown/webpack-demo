@@ -78,3 +78,15 @@ exports.minify = function() {
     ]
   }
 };
+
+// this can also be achieved with babel-plugin-transform-inline-environment-variables
+exports.setFreeVariable = function(key, value) {
+  const env = {};
+  env[key] = JSON.stringify(value);
+
+  return {
+    plugins: [
+      new webpack.DefinePlugin(env)
+    ]
+  };
+};
