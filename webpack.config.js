@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 const parts = require('./config/parts');
-
+const pkg = require('./package.json');
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build')
@@ -14,11 +14,12 @@ const common = {
   // We'll be using the latter form given it's
   // convenient with more complex configurations.
   entry: {
-    app: PATHS.app
+    app: PATHS.app,
+    // vendor: Object.keys(pkg.dependencies), // use extractBundle config for this
   },
   output: {
     path: PATHS.build,
-    filename: '[name]-[hash].js'
+    filename: '[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -35,7 +36,8 @@ if(process.env.npm_lifecycle_event === 'build') {
     { devtool: 'source-map' },
     parts.setupCSS(PATHS.app),
     parts.minify(),
-    parts.setFreeVariable('process.env.NODE_ENV', 'production')
+    parts.setFreeVariable('process.env.NODE_ENV', 'production'),
+    parts.extractBundle({ name: 'vendor', entries: Object.keys(pkg.dependencies) })
   );
 } else {
   const devConfig = {
