@@ -6,7 +6,8 @@ const parts = require('./config/parts');
 const pkg = require('./package.json');
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  style: path.join(__dirname, 'app', 'main.scss'),
+  build: path.join(__dirname, 'build'),
 };
 
 const common = {
@@ -15,6 +16,7 @@ const common = {
   // convenient with more complex configurations.
   entry: {
     app: PATHS.app,
+    style: PATHS.style,
     // vendor: Object.keys(pkg.dependencies), // use extractBundle config for this
   },
   output: {
@@ -44,7 +46,7 @@ if(process.env.npm_lifecycle_event === 'build') {
         chunkFilename: '[chunkhash].js',
       }
     },
-    parts.setupCSS(PATHS.app),
+    parts.extractCSS(PATHS.style),
     parts.minify(),
     parts.setFreeVariable('process.env.NODE_ENV', 'production'),
     parts.extractBundle({ name: 'vendor', entries: Object.keys(pkg.dependencies) })
@@ -59,7 +61,7 @@ if(process.env.npm_lifecycle_event === 'build') {
     common,
     parts.devServer(devConfig),
     { devtool: 'eval-source-map'},
-    parts.setupCSS(PATHS.app)
+    parts.setupCSS(PATHS.style)
   );
 }
 
