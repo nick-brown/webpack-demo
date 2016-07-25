@@ -48,10 +48,25 @@ exports.setupCSS = function(paths) {
           // if unset webpack will traverse all files in the base directory
           include: paths,
         }
-      ]
+      ].concat(fontLoaders)
     }
   };
 };
+
+const fontLoaders = [
+  {
+    test: /\.woff$/,
+    loader: "url-loader?limit=10000&mimetype=application/font-woff&name=[path][name].[ext]"
+  },
+  {
+    test: /\.woff2$/,
+    loader: "url-loader?limit=10000&mimetype=application/font-woff2&name=[path][name].[ext]"
+  },
+  {
+    test: /\.(eot|ttf|svg|gif|png)$/,
+    loader: "file-loader"
+  }
+];
 
 exports.minify = function() {
   return {
@@ -132,7 +147,7 @@ exports.extractCSS = function(paths) {
           loader: ExtractTextPlugin.extract('style', 'css'),
           include: paths
         }
-      ]
+      ].concat(fontLoaders)
     },
     plugins: [
       // Output extracted CSS to a file

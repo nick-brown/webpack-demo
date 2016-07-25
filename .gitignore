@@ -5,3 +5,4 @@ public
 *.generated.*
 build/
 *.swp
+npm-debug.log
