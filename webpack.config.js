@@ -6,7 +6,10 @@ const parts = require('./config/parts');
 const pkg = require('./package.json');
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  style: path.join(__dirname, 'app', 'main.scss'),
+  style: [
+    path.join(__dirname, 'app', 'main.css'),
+    path.join(__dirname, 'node_modules', 'purecss'),
+  ],
   build: path.join(__dirname, 'build'),
 };
 
@@ -47,6 +50,7 @@ if(process.env.npm_lifecycle_event === 'build') {
       }
     },
     parts.extractCSS(PATHS.style),
+    parts.purifyCSS([PATHS.app]),
     parts.minify(),
     parts.setFreeVariable('process.env.NODE_ENV', 'production'),
     parts.extractBundle({ name: 'vendor', entries: Object.keys(pkg.dependencies) })

@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const PurifyCSSPlugin = require('purifycss-webpack-plugin');
 exports.devServer = function(options) {
   return {
     devServer: {
@@ -43,8 +43,8 @@ exports.setupCSS = function(paths) {
     module: {
       loaders: [
         {
-          test: /\.scss$/,
-          loaders: ['style', 'css?sourceMap', 'sass?sourceMapp'],
+          test: /\.css$/,
+          loaders: ['style', 'css?sourceMap'],
           // if unset webpack will traverse all files in the base directory
           include: paths,
         }
@@ -120,7 +120,7 @@ exports.clean = function(path) {
       })
     ]
   };
-}
+};
 
 exports.extractCSS = function(paths) {
   return {
@@ -128,8 +128,8 @@ exports.extractCSS = function(paths) {
       loaders: [
         // Extract CSS during build
         {
-          test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style', 'css!sass'),
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css'),
           include: paths
         }
       ]
@@ -139,4 +139,17 @@ exports.extractCSS = function(paths) {
       new ExtractTextPlugin('[name].[chunkhash].css')
     ]
   };
-}
+};
+
+exports.purifyCSS = function(paths) {
+  return {
+    plugins: [
+      new PurifyCSSPlugin({
+        basePAth: process.cwd(),
+        // paths is used to point the pl;ugin to files otherwise not visible to webpack
+        // You can pass glob patterns to it as well
+        paths: paths,
+      })
+    ]
+  };
+};
