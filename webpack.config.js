@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 const parts = require('./config/parts');
 const pkg = require('./package.json');
+
 const PATHS = {
   app: path.join(__dirname, 'app'),
   style: [
