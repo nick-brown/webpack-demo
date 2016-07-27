@@ -50,6 +50,7 @@ if(process.env.npm_lifecycle_event === 'build') {
         chunkFilename: '[chunkhash].js',
       }
     },
+    parts.babelTransform(PATHS.app),
     parts.extractCSS(PATHS.style),
     parts.purifyCSS([PATHS.app]),
     parts.minify(),
@@ -85,6 +86,7 @@ if(process.env.npm_lifecycle_event === 'build') {
   config = merge(
     common,
     parts.devServer(devConfig),
+    parts.babelTransform(PATHS.app),
     { devtool: 'eval-source-map'},
     parts.setupCSS(PATHS.style)
   );

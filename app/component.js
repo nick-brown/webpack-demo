@@ -4,5 +4,8 @@ module.exports = function() {
   element.className = 'pure-button';
   element.innerHTML = 'Hello World!';
 
+  const fn = () => 'stuff';
+  console.log(fn());
+
   return element;
 };
