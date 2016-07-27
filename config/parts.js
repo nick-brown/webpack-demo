@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack-plugin');
+
 exports.devServer = function(options) {
   return {
     devServer: {
@@ -166,5 +167,23 @@ exports.purifyCSS = function(paths) {
         paths: paths,
       })
     ]
+  };
+};
+
+exports.babelTransform = function(paths) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          loader: 'babel?cacheDirectory,presets[]=es2015', // use the OS tmp file location for cache
+          // query: {
+          //   presets: ['es2015'],
+          // },
+          exclude: /(node_modules|bower_components)/, // is exclude necessary with include?
+          include: paths,
+        }
+      ]
+    }
   };
 };
