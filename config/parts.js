@@ -176,10 +176,11 @@ exports.babelTransform = function(paths) {
       loaders: [
         {
           test: /\.js$/,
-          loader: 'babel?cacheDirectory,presets[]=es2015', // use the OS tmp file location for cache
-          // query: {
-          //   presets: ['es2015'],
-          // },
+          loader: 'babel',
+          query: {
+            presets: ['es2015'],
+            cacheDirectory: true, // use the OS tmp file location for cache
+          },
           exclude: /(node_modules|bower_components)/, // is exclude necessary with include?
           include: paths,
         }
