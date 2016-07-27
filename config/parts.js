@@ -43,8 +43,8 @@ exports.setupCSS = function(paths) {
     module: {
       loaders: [
         {
-          test: /\.css$/,
-          loaders: ['style', 'css?sourceMap'],
+          test: /\.scss$/,
+          loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
           // if unset webpack will traverse all files in the base directory
           include: paths,
         }
